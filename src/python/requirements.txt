@@ -1,4 +1,4 @@
 ###### Requirements without Version Specifiers ######
 numpy
-opencv-python
+opencv-contrib-python
 matplotlib

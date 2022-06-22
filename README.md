@@ -45,4 +45,4 @@ You can install all the dependencies with:
 Here is the list of all python dependencies: 
  - numpy
  - matplotlib
- - opencv-python
+ - opencv-contrib-python
