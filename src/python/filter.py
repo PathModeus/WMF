@@ -4,7 +4,6 @@ You can use weightType to modify the weight kernel of the filter.
 """
 
 import cv2 as cv
-import numpy as np
 from matplotlib import pyplot as plt
 
 #Load the image
