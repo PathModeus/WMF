@@ -37,3 +37,12 @@ Images:
  - http://www.cse.cuhk.edu.hk/~leojia/projects/L0smoothing/index.html#results
  - http://www.cse.cuhk.edu.hk/%7eleojia/projects/texturesep/tsmoothing.zip
  - https://mrl.cs.nyu.edu/projects/image-analogies/images/girl.jpg
+
+## Python dependencies
+You can install all the dependencies with:
+    pip install -r src/python/requirements.txt
+
+Here is the list of all python dependencies: 
+ - numpy
+ - matplotlib
+ - opencv-contrib-python
