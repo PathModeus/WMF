@@ -15,6 +15,16 @@ Week 1 :
  - Collect img and build dataset
  - Try out the different filters that already exist
 
+Week 2 :
+ - Understand the 100x faster filtering from Zhang
+ - Find metrics to evaluate the efficiency of filtering
+ - Try to understand CUDA
+
+Week 3 :
+ - Chose the metrics
+ - Finish the images generator to add noise over the different images
+
+
 ## Authors and acknowledgment
 This project, initiated by Laurent Cabaret, is led by Tom Bray
 
@@ -46,3 +56,4 @@ Here is the list of all python dependencies:
  - numpy
  - matplotlib
  - opencv-contrib-python
+ - scikit-image

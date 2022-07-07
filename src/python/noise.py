@@ -6,7 +6,7 @@ image : ndarray
 mode : str
     One of the following strings, selecting the type of noise to add:
 
-    'gauss'     Gaussian-distributed additive noise.
+    'gauss'  Gaussian-distributed additive noise.
     'poisson'   Poisson-distributed noise generated from the data.
     's&p'       Replaces random pixels with 0 or 1.
     'speckle'   Multiplicative noise using out = image + n*image,where
@@ -14,46 +14,38 @@ mode : str
 '''
 
 import numpy as np
+from skimage.util import random_noise
 
 def noisy(noise_typ,image):
 
-    if noise_typ == "gauss":
-      row,col,ch= image.shape
-      mean = 0
-      var = 0.1
-      sigma = var**0.5
-      gauss = np.random.normal(mean,sigma,(row,col,ch))
-      gauss = gauss.reshape(row,col,ch)
-      noisy = image + gauss
-      return noisy
+  #add gaussian noise
+  if noise_typ == "gauss":
+      
+    noisy = random_noise(image, mode='gaussian')
 
-    elif noise_typ == "s&p":
-      row,col,ch = image.shape
-      s_vs_p = 0.5
-      amount = 0.05
-      out = np.copy(image)
-      # Salt mode
-      num_salt = np.ceil(amount * image.size * s_vs_p)
-      coords = [np.random.randint(0, i - 1, int(num_salt))
-              for i in image.shape]
-      out[coords] = 1
+  #add salt and pepper noise
+  elif noise_typ == "s&p":
 
-      # Pepper mode
-      num_pepper = np.ceil(amount* image.size * (1. - s_vs_p))
-      coords = [np.random.randint(0, i - 1, int(num_pepper))
-              for i in image.shape]
-      out[coords] = 0
-      return out
+    amount = 0.05
 
-    elif noise_typ == "poisson":
-        vals = len(np.unique(image))
-        vals = 2 ** np.ceil(np.log2(vals))
-        noisy = np.random.poisson(image * vals) / float(vals)
-        return noisy
+    noisy = random_noise(image, mode='s&p',amount=amount)
 
-    elif noise_typ =="speckle":
-      row,col,ch = image.shape
-      gauss = np.random.randn(row,col,ch)
-      gauss = gauss.reshape(row,col,ch)        
-      noisy = image + image * gauss
-      return noisy
+  #add poisson noise  
+  elif noise_typ == "poisson":
+
+    noisy = random_noise(image, mode='poisson')
+
+  #add speckle noise
+  elif noise_typ =="speckle":
+    
+    mean = 0
+    var = 0.01
+
+    noisy = random_noise(mode = 'speckle', mean=mean, var=var)
+
+  # The above function returns a floating-point image
+  # on the range [0, 1], thus we changed it to 'uint8'
+  # and from [0,255]
+  noisy = np.array(255*noisy, dtype = 'uint8')
+
+  return noisy
