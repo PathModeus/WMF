@@ -23,9 +23,9 @@ Week 2 :
 Week 3 :
  - Chose the metrics
  - Finish the images generator to add noise over the different images
-
-
-## Authors and acknowledgment
+ 
+ 
+ ## Authors and acknowledgment
 This project, initiated by Laurent Cabaret, is led by Tom Bray
 
 ## Project status
@@ -56,4 +56,4 @@ Here is the list of all python dependencies:
  - numpy
  - matplotlib
  - opencv-contrib-python
- - scikit-image
+ - sci-kit image
