@@ -65,8 +65,6 @@ Here is the list of all python dependencies:
 ## Tips and ideas for the project
 - In July 2022 nobody had yet parallelized Zhang's algorithm because the data structures are complicated to implement with parallel computing and call for previous calculations. However, there is something to dig into. 
 
-- I didn't have time to make results on the efficiency of the filter according to the size of the kernel, it can be interesting!
-
 - Do the weighted median filters keep the edges in place? We need to find measurements for this and do tests on the images.
 
 - I found that for low noise levels, the filter tended to degrade the image more than to improve it but I didn't have time to find this noise threshold.
