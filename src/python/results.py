@@ -32,7 +32,7 @@ i=0
 
 for img in images : 
     #add noise over the images
-    images[img]['noised'] = noise.noisy("s&p",images[img]['original'], 0.1)
+    images[img]['noised'] = noise.noisy("s&p",images[img]['original'], 0.3)
 
     #filter the images
     images[img]['blured'] = cv.ximgproc.weightedMedianFilter(images[img]['noised'], images[img]['noised'], 3, weightType = cv.ximgproc.WMF_COS)
@@ -51,4 +51,29 @@ for img in images :
 
     i+=1
 
+plt.show()
+
+
+###Quality of filter of a given kernel depending on noise lvl :
+
+kernel_size=3
+noiselvl = np.linspace(0,1,100)
+quality = []
+
+for i in noiselvl:
+    quality.append(met.noiseDependentFilter(uniform_img, kernel_size, cv.ximgproc.WMF_COS, i))
+
+plt.plot(noiselvl,quality)
+plt.show()
+
+###Quality of filter of the filter for a given noise lvl depending on kernel size :
+
+kernel_size=[i for i in range(1, 26)]
+noiselvl = 0.3
+quality = []
+
+for i in kernel_size:
+    quality.append(met.noiseDependentFilter(uniform_img, i, cv.ximgproc.WMF_COS, noiselvl))
+
+plt.plot(kernel_size,quality)
 plt.show()

@@ -16,7 +16,7 @@ mode : str
 import numpy as np
 from skimage.util import random_noise
 
-def noisy(noise_typ,image):
+def noisy(noise_typ,image, noiseLvl):
 
   #add gaussian noise
   if noise_typ == "gauss":
@@ -26,7 +26,7 @@ def noisy(noise_typ,image):
   #add salt and pepper noise
   elif noise_typ == "s&p":
 
-    amount = 0.05
+    amount = noiseLvl
 
     noisy = random_noise(image, mode='s&p',amount=amount)
 
@@ -39,7 +39,7 @@ def noisy(noise_typ,image):
   elif noise_typ =="speckle":
     
     mean = 0
-    var = 0.01
+    var = noiseLvl**2
 
     noisy = random_noise(mode = 'speckle', mean=mean, var=var)
 

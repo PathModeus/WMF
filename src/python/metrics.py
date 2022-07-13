@@ -44,11 +44,11 @@ def noiseDependentFilter(img, kern_size, kern_type, noiseLvl):
     noised = noise.noisy("s&p",img, noiseLvl)
 
     #filter the image
-    blur = cv.ximgproc.weightedMedianFilter(noised,noised, kern_size, weightType = kern_type)
+    blur = cv.ximgproc.weightedMedianFilter(noised, noised, kern_size, weightType = kern_type )
 
     #calculates similarities
     noised_sim = similarity(img, noised)
-    filtered_sim = similarity (img, blur)
+    filtered_sim = similarity(img, blur)
 
     #calculates the quality
     qual = qualityMeasurement(filtered_sim, noised_sim)
