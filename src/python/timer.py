@@ -1,5 +1,6 @@
 """
 This class is used in speedTest to determine the efficiency of the algorithm 
+Currently this feature is deprecated as we recommend working in CPP for speed testing instead.
 """
 
 import time
