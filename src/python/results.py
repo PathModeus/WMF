@@ -1,36 +1,54 @@
+"""
+Allows to present some results of my internship and calculations carried out according to various parameters.
+"""
 import cv2 as cv
-import noise
 import numpy as np
+import noise
 import matplotlib.pyplot as plt
+import metrics as met
+import imgGen
+
+###Examples
+
+images={}
+
+clip_img = cv.imread('img/9.jpg')#load clipart image 
+images['clip_img'] = { 'original' : cv.cvtColor(clip_img, cv.COLOR_BGR2RGB) }
+
+standard_img = cv.imread('img/rock2.png')#load standard png image 
+images['standard_img'] = { 'original' : cv.cvtColor(standard_img, cv.COLOR_BGR2RGB) }
+
+uniform_img = imgGen.uniformImg(300, 400) #creates an uniform img
+uniform_img = (255*uniform_img).astype(np.uint8)
+images['uniform_img'] = { 'original' : uniform_img}
+
+#gs_img = cv.imread('img/barbara.png')#load grayscale image 
+#images['gs_img'] = { 'original' : cv.cvtColor(gs_img, cv.COLOR_BGR2RGB) }
 
 
-def similarity(img, filtered_img):
+#iterate over all the images
+L=len(images)
+i=0
 
-    height,width,x = np.shape(img)
-    errorL2 = cv.norm( img, filtered_img, cv.NORM_L2 )
+for img in images : 
+    #add noise over the images
+    images[img]['noised'] = noise.noisy("s&p",images[img]['original'], 0.1)
 
-    similarity = 1-errorL2/(height * width)
-    print(similarity)
-    return similarity
+    #filter the images
+    images[img]['blured'] = cv.ximgproc.weightedMedianFilter(images[img]['noised'], images[img]['noised'], 3, weightType = cv.ximgproc.WMF_COS)
 
-img = cv.imread('img/9.jpg') 
-img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+    #calculate similarities
+    images[img]['noised_sim'] = str(round(met.similarity(images[img]['original'],images[img]['noised']),3))
+    images[img]['blured_sim'] = str(round(met.similarity(images[img]['original'],images[img]['blured']),3))
 
-noised = noise.noisy("s&p",img)
+    #Display the original, the noised and the filtered images
+    plt.subplot(L*100+31+3*i),plt.imshow(images[img]['noised']),plt.title('Noised \n similarity = ' + images[img]['noised_sim'])
+    plt.xticks([]), plt.yticks([])
+    plt.subplot(L*100+32+3*i),plt.imshow(images[img]['original']),plt.title('Original \n similarity = 1')
+    plt.xticks([]), plt.yticks([])
+    plt.subplot(L*100+33+3*i),plt.imshow(images[img]['blured']),plt.title('Blured \n similarity = ' + images[img]['blured_sim'])
+    plt.xticks([]), plt.yticks([])
 
-#Filter the image
-blur = cv.ximgproc.weightedMedianFilter(noised,noised, 1, weightType = cv.ximgproc.WMF_COS)
+    i+=1
 
-#similarities
-noised_sim = str(round(similarity(img,noised),3))
-filtered_sim = str(round(similarity(img,blur),3))
-
-#Display the original and the filtered image
-plt.subplot(131),plt.imshow(noised),plt.title('Noised \n similarity = ' + noised_sim)
-plt.xticks([]), plt.yticks([])
-plt.subplot(132),plt.imshow(img),plt.title('Original')
-plt.xticks([]), plt.yticks([])
-plt.subplot(133),plt.imshow(blur),plt.title('Filtered \n similarity = ' + filtered_sim)
-plt.xticks([]), plt.yticks([])
 plt.show()
-
